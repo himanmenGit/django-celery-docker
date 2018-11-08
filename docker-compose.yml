@@ -7,4 +7,5 @@ services:
             - "8000:8000"
         volumes:
             - .:/celery
-        command: bash -c "django-admin startproject config && mv config app"
+        working_dir: /celery/app
+        command: python manage.py runserver 0.0.0.0:8000
