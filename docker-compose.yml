@@ -10,3 +10,7 @@ services:
 #        command: bash -c "django-admin startproject config && mv config app"
         working_dir: /celery/app
         command: python manage.py runserver 0.0.0.0:8000
+        depends_on:
+          - redis
+    redis:
+        image: "redis:alpine"
