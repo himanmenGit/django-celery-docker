@@ -1,6 +1,8 @@
 version: "3"
 
 services:
+    redis:
+        image: "redis:alpine"
     web:
         build: .
         ports:
@@ -9,8 +11,16 @@ services:
             - .:/celery
 #        command: bash -c "django-admin startproject config && mv config app"
         working_dir: /celery/app
-        command: python manage.py runserver 0.0.0.0:8000
+        command: bash -c "python manage.py migrate --noinput && python manage.py runserver 0.0.0.0:8000"
         depends_on:
           - redis
-    redis:
-        image: "redis:alpine"
+    celery:
+        build: .
+        working_dir: /celery/app
+        command: celery -A config worker -l info
+        environment:
+          - C_FORCE_ROOT="true"
+        volumes:
+          - .:/celery
+        depends_on:
+          - redis

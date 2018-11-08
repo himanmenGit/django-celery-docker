@@ -10,3 +10,4 @@ ADD     requirements.txt /celery/
 RUN     pip install -r /celery/requirements.txt
 
 ADD     . /celery/
+ENV     C_FORCE_ROOT=1
