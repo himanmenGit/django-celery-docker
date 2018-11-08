@@ -18,8 +18,6 @@ services:
         build: .
         working_dir: /celery/app
         command: celery -A config worker -l info
-        environment:
-          - C_FORCE_ROOT="true"
         volumes:
           - .:/celery
         depends_on:
